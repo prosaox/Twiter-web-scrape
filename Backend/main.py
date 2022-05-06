@@ -10,35 +10,28 @@ auth.set_access_token("1463578925024657410-OYwNQ1hmYLUdhUcHzBm7krz9cjUuAB",
 
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
-name="vietnam_idol"
+name="MikezGarcia"
 # user = api.get_user(screen_name=name)
-
+# count = user.followers_count
 # print("User details:")
 # print(user.screen_name)
 # print(user.description)
 # print(user.location)
+# data=[]
+# print(name + " has " + str(count) + " followers.")
+# for follower in tweepy.Cursor(api.get_followers,screen_name=name).items(count):
+#     x=[follower.name,follower.description,follower.location]
+#     data.append(x)
 
-c = tweepy.Cursor(api.get_followers, screen_name=name)
-count = 0
-for follower in c.items():
-    count += 1
-print(name + " has " + str(count) + " followers.")
-for follower in tweepy.Cursor(api.get_followers,screen_name=name).items(count):
-    print(follower.name)
-    print(follower.description)
-    print(follower.location)
-    # print()
 
-# with open('countries.csv', 'w', encoding='UTF8', newline='') as f:
-#     writer = csv.writer(f)
+c = tweepy.Cursor(api.get_follower_ids, screen_name = name)
+ids = []
+for x in c.items():
+    ids.append(x)
 
-#     # write the header
-#     writer.writerow(header)
-
-#     # write multiple rows
-#     writer.writerows(data)
-# c = tweepy.Cursor(api.get_follower_ids, screen_name = 'vietnam_idol')
-# ids = []
-# for page in c.pages():
-#      ids.append(page)
-
+with open('results.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["Name", "Description", "Location"])
+    for x in ids:
+        user = api.get_user(user_id=x)
+        writer.writerow([user.screen_name.encode('utf-8'), user.description.encode('utf-8'), user.location.encode('utf-8')])

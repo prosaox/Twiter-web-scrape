@@ -1,2 +1,2 @@
-    # print(follower.description)
-    # print(follower.location)
+    # print(user.description)
+    # print(user.location)
