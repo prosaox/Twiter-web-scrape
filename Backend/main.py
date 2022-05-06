@@ -29,9 +29,9 @@ ids = []
 for x in c.items():
     ids.append(x)
 
-with open('results.csv', 'w', newline='') as file:
+with open('results.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(["Name", "Description", "Location"])
     for x in ids:
         user = api.get_user(user_id=x)
-        writer.writerow([user.screen_name.encode('utf-8'), user.description.encode('utf-8'), user.location.encode('utf-8')])
+        writer.writerow([user.screen_name, user.description, user.location])
