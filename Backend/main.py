@@ -1,4 +1,4 @@
-# 75000 ids/15 min + 18000 lookup/15mins
+# 3000 followers/15 mins
 import tweepy,csv
 
 
