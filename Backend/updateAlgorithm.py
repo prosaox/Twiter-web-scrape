@@ -1,4 +1,4 @@
-# 75000 ids/15 min + 18000 lookup/15mins
+# 3000 followers/15 mins
 import tweepy,csv
 
 
@@ -15,15 +15,24 @@ name="vietnam_idol"
 user = api.get_user(screen_name=name)
 counts = user.followers_count
 
-c = tweepy.Cursor(api.get_followers, screen_name = name,count=200)
+c = tweepy.Cursor(api.get_follower_ids, screen_name = name,count=5000)
 ids = []
 for x in c.items():
     ids.append(x)
-    print(len(ids))
-
+print(len(ids))
+count=0
+list=[]
 with open('results.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(["Name", "Description", "Location"])
     for x in ids:
-        # user = api.get_user(user_id=x)
-        writer.writerow([x.screen_name, x.description, x.location])
+        count+=1
+        if count==100:
+            list.append(x)
+            user = api.lookup_users(user_id=list[0:99])
+            for i in range(len(user)):
+                writer.writerow([user[i].screen_name, user[i].description, user[i].location])
+            list=[]
+            count=0
+        else:
+            list.append(x)
